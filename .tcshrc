@@ -1,0 +1,28 @@
+# .tcshrc
+# John R. Makosky
+# Tue Sep 16 11:45:25 CDT 1997 
+# please see tcsh(1) for more information
+
+# tcsh-specific entries should go here
+
+if ( $?prompt ) then               # interactive shell
+
+   # prompt setup
+   set prompt = "%n@%m %B[%~]%b %% "
+
+   # keybinding (tcsh defaults to emacs-style keybindings.  Uncomment
+   # the following for vi-style keybindings.)
+   # bindkey -v
+   
+   # autocompletion variables
+   set addsuffix autoexpand autolist recexact
+   
+   # tcsh-specific aliases
+   alias ls ls-F	# use faster tcsh-ls
+
+endif
+
+if ( -f ~/.cshrc ) then
+   source ~/.cshrc
+endif
+
