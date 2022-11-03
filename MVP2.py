@@ -9,7 +9,7 @@ import fiona
 import rasterio
 import rioxarray as rxr
 from rasterio.plot import plotting_extent
-
+import joblib
 import shapely
 import warnings
 from shapely.errors import ShapelyDeprecationWarning
@@ -203,22 +203,28 @@ print('Baseline absolute error', round(np.mean(baseline_error),2), 'g/cm^2')
 
 from sklearn.ensemble import RandomForestRegressor
 
-# create regressor object
+### create regressor object
 regr = RandomForestRegressor(n_estimators = 100, random_state = 0)
 
-#Fit the regressor with dataframes x_train and y_train
+###Fit the regressor with dataframes x_train and y_train
 regr.fit(X_train, y_train)  
 
-# Run model on the training dataset
+### Run model on the training dataset
 y_pred=regr.predict(X_test)
 
-# Evaluate how the model did using mean square error.  
+### Evaluate how the model did using mean square error.  
 from sklearn.metrics import mean_squared_error
 
 mse = mean_squared_error(y_test, y_pred)
 rmse = np.sqrt(mse)
 rmse
 
-# or we can look at the absolute value of the difference between predicted and "actual"
+## or we can look at the absolute value of the difference between predicted and "actual"
 errors = abs(y_pred - y_test)
 print('Mean Absolute Error:', round(np.mean(errors), 2), 'g/cm^2')
+
+ 
+## save the model object and training data
+
+joblib.dump(regr, "./random_forest.joblid")
+Sites_landcover.to_csv("./SoilCandEnvData.csv")
